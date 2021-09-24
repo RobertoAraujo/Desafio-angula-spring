@@ -1,5 +1,8 @@
 package com.poshyweb.projeto.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.poshyweb.projeto.dominio.Categoria;
+import com.poshyweb.projeto.dto.CategoriaDTO;
 import com.poshyweb.projeto.serve.CategoriaService;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -26,4 +30,10 @@ public class CategoriaControler {
 		
 	}
 
+	@GetMapping
+	public ResponseEntity<List<CategoriaDTO>> findAll(){
+		List<Categoria> list = categoriaService.findAll();
+		List<CategoriaDTO> listDTO = list.stream().map( objCategoria -> new CategoriaDTO(objCategoria)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
 }
