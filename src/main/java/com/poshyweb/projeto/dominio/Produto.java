@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table (name = "produto")
 public class Produto implements Serializable{
@@ -26,6 +28,7 @@ public class Produto implements Serializable{
 	@Column
 	private double preco;
 	
+	@JsonIgnore
 	@ManyToOne // muitos para um
 	@JoinColumn(name = "" )
 	private Categoria categoria;
