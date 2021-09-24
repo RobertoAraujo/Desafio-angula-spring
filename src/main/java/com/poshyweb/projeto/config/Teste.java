@@ -10,6 +10,7 @@ import com.poshyweb.projeto.serve.DBserver;
 @Configuration   // configuraçaõ do perfil
 @Profile("test") // perfil ativo
 public class Teste {
+	
 	@Autowired
 	private DBserver dBserver;
 	
