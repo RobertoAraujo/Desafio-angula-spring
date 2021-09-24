@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -28,6 +29,7 @@ public class Produto implements Serializable{
 	private double preco;
 	
 	@ManyToOne // muitos para um
+	@JoinColumn(name = "" )
 	private Categoria categoria;
 
 	public Produto() {
