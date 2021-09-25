@@ -4,8 +4,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,7 @@ import com.poshyweb.projeto.serve.CategoriaService;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/categoria")
 public class CategoriaControler {
@@ -45,7 +49,7 @@ public class CategoriaControler {
 	
 	// salva no banco
 	@PostMapping
-	public ResponseEntity<Categoria> create(@RequestBody Categoria objCategoria){
+	public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria objCategoria){
 		objCategoria = categoriaService.create(objCategoria);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objCategoria.getId()).toUri();
 		return ResponseEntity.created(uri).build();
@@ -53,7 +57,7 @@ public class CategoriaControler {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @RequestBody CategoriaDTO objDTO) throws ObjectNotFoundException{
+	public ResponseEntity<CategoriaDTO> update(@Valid @PathVariable Long id, @RequestBody CategoriaDTO objDTO) throws ObjectNotFoundException{
 		Categoria objnovo = categoriaService.update(id, objDTO);
 		return ResponseEntity.ok().body(new CategoriaDTO(objnovo));
 		

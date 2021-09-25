@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "categoria")
@@ -22,9 +24,12 @@ public class Categoria implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column
+	@NotEmpty(message = "Campo nome e requerido")
+	@Length(min = 3, max = 100, message = "Campo deve ter entre 3 e 100 caracteres")
 	private String nome;
-	@Column
+	
+	@NotEmpty(message = "Campo descriçaõ e requerido")
+	@Length(min = 3, max = 200, message = "Campo deve ter entre 3 e 200 caracteres")
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria") // um pra muitos

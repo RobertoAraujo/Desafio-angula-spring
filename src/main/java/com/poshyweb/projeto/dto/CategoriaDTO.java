@@ -3,6 +3,10 @@ package com.poshyweb.projeto.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.poshyweb.projeto.dominio.Categoria;
 
 public class CategoriaDTO implements Serializable{
@@ -10,7 +14,13 @@ public class CategoriaDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	
+	@NotEmpty(message = "Campo nome e requerido")
+	@Length(min = 3, max = 100, message = "Campo deve ter entre 3 e 100 caracteres")
 	private String nome;
+	
+	@NotEmpty(message = "Campo descriçaõ e requerido")
+	@Length(min = 3, max = 200, message = "Campo deve ter entre 3 e 200 caracteres")
 	private String descricao;
 	
 	public CategoriaDTO() {

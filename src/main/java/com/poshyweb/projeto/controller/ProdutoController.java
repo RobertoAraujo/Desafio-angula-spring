@@ -4,8 +4,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +26,7 @@ import com.poshyweb.projeto.serve.ProdutoService;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping (value = "/produto")
 public class ProdutoController {
@@ -47,13 +51,13 @@ public class ProdutoController {
 	}
 	
 	@PutMapping (value = "/{id}")
-	public ResponseEntity<Produto> update(@PathVariable Long id, @RequestBody Produto objPoProd) throws ObjectNotFoundException {
+	public ResponseEntity<Produto> update(@Valid @PathVariable Long id, @RequestBody Produto objPoProd) throws ObjectNotFoundException {
 		Produto novoProd = produtoService.update(id , objPoProd);
 		return ResponseEntity.ok().body(novoProd);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Produto> create(@RequestParam(value = "categoria",defaultValue = "0")Long id_cat, @RequestBody Produto obProd) throws ObjectNotFoundException {
+	public ResponseEntity<Produto> create(@Valid @RequestParam(value = "categoria",defaultValue = "0")Long id_cat,@Valid @RequestBody Produto obProd) throws ObjectNotFoundException {
 		Produto novoObj = produtoService.create(id_cat, obProd);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/produto/{id}").buildAndExpand(novoObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
