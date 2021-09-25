@@ -42,7 +42,11 @@ public class CategoriaService {
 
 	public void delete(Long id) throws ObjectNotFoundException {
 		findByIderro(id);
-		categoriaRepository.deleteById(id);
+		try {
+			categoriaRepository.deleteById(id);	
+		} catch (Exception e) {
+			throw new com.poshyweb.projeto.erros.DataIntegrityViolationException("Categoria possui produtos por isso nã opode ser deletado.");
+		}
 		
 	}
 	

@@ -17,4 +17,10 @@ public class ResouceExceptionHandler {
 		StandaErro error = new StandaErro(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), e.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<StandaErro>  DataIntegrityViolationException(DataIntegrityViolationException e, ServletRequest request){
+		StandaErro error = new StandaErro(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), e.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
 }
