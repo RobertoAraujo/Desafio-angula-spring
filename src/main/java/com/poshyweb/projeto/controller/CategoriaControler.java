@@ -1,5 +1,6 @@
 package com.poshyweb.projeto.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.poshyweb.projeto.dominio.Categoria;
 import com.poshyweb.projeto.dto.CategoriaDTO;
@@ -35,5 +39,14 @@ public class CategoriaControler {
 		List<Categoria> list = categoriaService.findAll();
 		List<CategoriaDTO> listDTO = list.stream().map( objCategoria -> new CategoriaDTO(objCategoria)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	// salva no banco
+	@PostMapping
+	public ResponseEntity<Categoria> create(@RequestBody Categoria objCategoria){
+		objCategoria = categoriaService.create(objCategoria);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objCategoria.getId()).toUri();
+		return ResponseEntity.created(uri).body(objCategoria);
+		
 	}
 }

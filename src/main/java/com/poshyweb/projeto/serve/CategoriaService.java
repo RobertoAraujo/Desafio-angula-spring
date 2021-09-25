@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import com.poshyweb.projeto.dominio.Categoria;
 import com.poshyweb.projeto.repository.CategoriaRepository;
@@ -22,9 +21,14 @@ public class CategoriaService {
 		Optional<Categoria> objCategoria = categoriaRepository.findById(id);
 		return objCategoria.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado !! id, " + id + " tipo " + Categoria.class.getName()));
 	}
-	@GetMapping
+	
 	public List<Categoria> findAll(){
 		return categoriaRepository.findAll();
 	}
-
+	// serviço de criar objeto
+	public Categoria create(Categoria objCategoria) {
+		objCategoria.setId(null);
+		return categoriaRepository.save(objCategoria);
+	}
+	
 }
