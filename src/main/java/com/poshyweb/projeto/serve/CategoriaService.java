@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poshyweb.projeto.dominio.Categoria;
+import com.poshyweb.projeto.dto.CategoriaDTO;
 import com.poshyweb.projeto.repository.CategoriaRepository;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -29,6 +30,13 @@ public class CategoriaService {
 	public Categoria create(Categoria objCategoria) {
 		objCategoria.setId(null);
 		return categoriaRepository.save(objCategoria);
+	}
+
+	public Categoria update(Long id, CategoriaDTO objCategoriaDTO) throws ObjectNotFoundException {
+		Categoria objCateg = findById(id);
+		objCateg.setNome(objCategoriaDTO.getNome());
+		objCateg.setDescricao(objCategoriaDTO.getDescricao());
+		return categoriaRepository.save(objCateg);
 	}
 	
 }
