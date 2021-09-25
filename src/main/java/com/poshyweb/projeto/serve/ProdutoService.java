@@ -42,10 +42,16 @@ public class ProdutoService {
 		novoProd.setPreco(objPoProd.getPreco());
 		
 	}
+	
 	public Produto create(Long id_cat, Produto obProd) throws ObjectNotFoundException {
 		obProd.setId(null);
 		Categoria cat= categoriaService.findByIderro(id_cat);
 		obProd.setCategoria(cat);
 		return produtoRepository.save(obProd);
+	}
+	
+	public void delete(Long id) throws ObjectNotFoundException {
+		Produto novoProd = findById(id);
+		produtoRepository.delete(novoProd);
 	}
 }

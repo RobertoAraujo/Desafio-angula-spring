@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,11 +51,19 @@ public class ProdutoController {
 		Produto novoProd = produtoService.update(id , objPoProd);
 		return ResponseEntity.ok().body(novoProd);
 	}
+	
 	@PostMapping
 	public ResponseEntity<Produto> create(@RequestParam(value = "categoria",defaultValue = "0")Long id_cat, @RequestBody Produto obProd) throws ObjectNotFoundException {
 		Produto novoObj = produtoService.create(id_cat, obProd);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/produto/{id}").buildAndExpand(novoObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 		
-	}	
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException{
+		produtoService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+	
 }
