@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.poshyweb.projeto.dominio.Categoria;
 import com.poshyweb.projeto.dominio.Produto;
 import com.poshyweb.projeto.repository.ProdutoRepository;
 
@@ -40,5 +41,11 @@ public class ProdutoService {
 		novoProd.setNome(objPoProd.getNome());
 		novoProd.setPreco(objPoProd.getPreco());
 		
+	}
+	public Produto create(Long id_cat, Produto obProd) throws ObjectNotFoundException {
+		obProd.setId(null);
+		Categoria cat= categoriaService.findByIderro(id_cat);
+		obProd.setCategoria(cat);
+		return produtoRepository.save(obProd);
 	}
 }

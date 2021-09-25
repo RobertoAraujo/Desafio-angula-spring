@@ -1,5 +1,6 @@
 package com.poshyweb.projeto.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.poshyweb.projeto.dominio.Produto;
 import com.poshyweb.projeto.dto.ProdutoDTO;
@@ -47,6 +50,11 @@ public class ProdutoController {
 		Produto novoProd = produtoService.update(id , objPoProd);
 		return ResponseEntity.ok().body(novoProd);
 	}
-	 
-	
+	@PostMapping
+	public ResponseEntity<Produto> create(@RequestParam(value = "categoria",defaultValue = "0")Long id_cat, @RequestBody Produto obProd) throws ObjectNotFoundException {
+		Produto novoObj = produtoService.create(id_cat, obProd);
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/produto/{id}").buildAndExpand(novoObj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+		
+	}	
 }
