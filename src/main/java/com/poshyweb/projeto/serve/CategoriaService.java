@@ -18,7 +18,8 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
-	public  Categoria findById(Long id) throws ObjectNotFoundException {
+	// se exitir
+	public  Categoria findByIderro(Long id) throws ObjectNotFoundException {
 		Optional<Categoria> objCategoria = categoriaRepository.findById(id);
 		return objCategoria.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado !! id, " + id + " tipo " + Categoria.class.getName()));
 	}
@@ -33,10 +34,16 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Long id, CategoriaDTO objCategoriaDTO) throws ObjectNotFoundException {
-		Categoria objCateg = findById(id);
+		Categoria objCateg = findByIderro(id);
 		objCateg.setNome(objCategoriaDTO.getNome());
 		objCateg.setDescricao(objCategoriaDTO.getDescricao());
 		return categoriaRepository.save(objCateg);
+	}
+
+	public void delete(Long id) throws ObjectNotFoundException {
+		findByIderro(id);
+		categoriaRepository.deleteById(id);
+		
 	}
 	
 }

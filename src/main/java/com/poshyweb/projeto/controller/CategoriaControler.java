@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,7 @@ public class CategoriaControler {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Long id) throws ObjectNotFoundException{
-		Categoria objCategoria = categoriaService.findById(id);
+		Categoria objCategoria = categoriaService.findByIderro(id);
 		return ResponseEntity.ok().body(objCategoria);
 		
 	}
@@ -56,5 +57,11 @@ public class CategoriaControler {
 		Categoria objnovo = categoriaService.update(id, objDTO);
 		return ResponseEntity.ok().body(new CategoriaDTO(objnovo));
 		
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException {
+		categoriaService.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }
