@@ -19,14 +19,26 @@ public class ProdutoService {
 	
 	@Autowired
 	private CategoriaService categoriaService;
-
+	// methodo de tratamento se nao tiver retorna mensagem
 	public Produto findById(Long id) throws ObjectNotFoundException {
 		Optional<Produto> objProduto = produtoRepository.findById(id);
 		return objProduto.orElseThrow(()-> new ObjectNotFoundException("Produto não encontrado!  id:"+ id + "tipo: "+ Produto.class.getName()));
 	}
-
+	// methodo de lsita todos pro categoria
 	public List<Produto> findAll(Long id_cat) throws ObjectNotFoundException {
 		categoriaService.findByIderro(id_cat);
 		return  produtoRepository.findByCategoria(id_cat);
+	}
+	// methodo de atualizar
+	public Produto update(Long id, Produto objPoProd) throws ObjectNotFoundException {
+		Produto novoProd = findById(id);
+		updateData(novoProd, objPoProd);
+		return produtoRepository.save(novoProd);
+	}
+	// tranferenia de informação
+	private void updateData(Produto novoProd, Produto objPoProd) {
+		novoProd.setNome(objPoProd.getNome());
+		novoProd.setPreco(objPoProd.getPreco());
+		
 	}
 }
